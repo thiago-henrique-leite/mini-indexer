@@ -1,0 +1,64 @@
+version: "3.0"
+
+services:
+  db:
+    image: postgres
+    container_name: mini-indexer-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - mini-indexer-volume:/var/lib/postgresql/data:Z
+    networks:
+      - mini-indexer-net
+
+  rails:
+    build: .
+    container_name: mini-indexer
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/mini-indexer
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - mini-indexer-net
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - mini-indexer-net
+    ports:
+      - 9200:9200
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    networks:
+      - mini-indexer-net
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
+
+networks:
+  mini-indexer-net:
+    driver: bridge
+
+volumes:
+  mini-indexer-volume:
+    external: true
