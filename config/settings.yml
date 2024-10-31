@@ -1,0 +1,2 @@
+elastic_search:
+  host: <%= ENV.fetch('ELASTIC_SEARCH_HOST', 'es-container:9200') %>
