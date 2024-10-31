@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.0.2'
 
+gem 'config', '~> 5.5'
 gem 'elasticsearch', '~> 7.17'
 gem 'rails', '~> 7.1.4'
 gem 'pg', '~> 1.1'
