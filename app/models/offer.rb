@@ -1,5 +1,5 @@
 class Offer < ApplicationRecord
-  belongs_to :university_offers
+  belongs_to :university_offer
 
-  validates :discount_percentage, :enabled, presence: true
+  validates :discount_percentage, presence: true
 end
