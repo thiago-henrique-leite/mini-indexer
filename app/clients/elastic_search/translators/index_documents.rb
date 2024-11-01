@@ -1,6 +1,6 @@
 module ElasticSearch
   module Translators
-    class Documents
+    class IndexDocuments
       def initialize(index, documents)
         @index = index
         @documents = documents
