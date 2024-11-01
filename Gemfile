@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.2.2'
 
 gem 'config', '~> 5.5'
 gem 'elasticsearch', '~> 7.17'
