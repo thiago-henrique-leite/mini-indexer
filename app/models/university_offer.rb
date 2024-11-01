@@ -4,5 +4,5 @@ class UniversityOffer < ApplicationRecord
 
   validates :full_price, :max_payments, :enrollment_semester, presence: true
   validates :full_price, :max_payments, numericality: { greater_than: 0 }
-  validates :enrollment_semester, format: { with: /\A\d{4}\.\d\z/, message: 'format must be YYYY.S' }
+  validates :enrollment_semester, format: { with: /\A\d{4}\.\d\z/ }
 end
