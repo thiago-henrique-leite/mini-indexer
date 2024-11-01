@@ -46,6 +46,9 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 10
 
+Rails/ActiveSupportAliases:
+  Enabled: false
+
 Rails/Delegate:
   Enabled: false
 

@@ -10,22 +10,18 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - 'mini-indexer-volume:/var/lib/postgresql/data'
-    networks:
-      - mini-indexer-net
+      - 'postgres:/var/lib/postgresql/data'
 
   rails:
     build: .
     container_name: mini-indexer
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     volumes:
-      - .:/mini-indexer
+      - '.:/usr/src/app:rw'
     ports:
       - "3000:3000"
     depends_on:
       - mini-indexer-postgres
-    networks:
-      - mini-indexer-net
 
   elasticsearch:
     container_name: es-container
@@ -41,8 +37,6 @@ services:
         soft: -1
         hard: -1
     mem_limit: 1g
-    networks:
-      - mini-indexer-net
     ports:
       - 9200:9200
 
@@ -51,17 +45,10 @@ services:
     image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
       - ELASTICSEARCH_HOSTS=http://es-container:9200
-    networks:
-      - mini-indexer-net
     depends_on:
       - elasticsearch
     ports:
       - 5601:5601
 
-networks:
-  mini-indexer-net:
-    driver: bridge
-
 volumes:
-  mini-indexer-volume:
-    external: true
+  postgres:
