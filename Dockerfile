@@ -1,11 +1,22 @@
-FROM ruby:3.2.2
+FROM ruby:3.2.2-alpine
 
-RUN mkdir /mini-indexer
-WORKDIR /mini-indexer
+RUN apk add \
+  bash \
+  build-base \
+  postgresql-dev \
+  postgresql-client \
+  libxslt-dev \
+  libxml2-dev \
+  tzdata
 
-COPY Gemfile /mini-indexer/Gemfile
-COPY Gemfile.lock /mini-indexer/Gemfile.lock
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY ./Gemfile* ./
+RUN bundle install
 
-RUN bundle install && bundle update --bundler
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-COPY . /mini-indexer
+COPY . .
+
+EXPOSE 3000
