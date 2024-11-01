@@ -2,7 +2,7 @@ module ElasticSearch
   class Client
     include Singleton
 
-    def create_documents(index, documents)
+    def index_documents(index, documents)
       body = ElasticSearch::Translators::Documents.new(index, documents).translate
 
       connection.bulk(body: body)
