@@ -14,7 +14,7 @@ module CourseOffers
         full_price: university_offer.full_price,
         max_payments: university_offer.max_payments,
         enrollment_semester: university_offer.enrollment_semester,
-        discount_percentage: offer.discount_percentage,
+        discount_percentage: offer.discount_percentage
       }
     end
 
