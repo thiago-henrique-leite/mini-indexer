@@ -1,4 +1,4 @@
-FROM ruby:3.2.2-alpine
+FROM ruby:3.2.2-alpine AS ruby-base
 
 RUN apk add \
   bash \
@@ -13,6 +13,8 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY ./Gemfile* ./
 RUN bundle install
+
+FROM ruby-base
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

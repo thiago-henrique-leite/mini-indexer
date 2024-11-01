@@ -1,18 +1,15 @@
-version: "3.0"
-
 services:
-  db:
+  mini_indexer_postgres:
+    container_name: mini_indexer_postgres
     image: 'postgres:13.6-alpine'
-    container_name: mini-indexer-postgres
-    restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: db
+      - POSTGRES_DB=mini_indexer
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - mini-indexer-volume:/var/lib/postgresql/data:Z
+      - 'mini-indexer-volume:/var/lib/postgresql/data'
     networks:
       - mini-indexer-net
 
@@ -25,13 +22,9 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      - mini_indexer_postgres
     networks:
       - mini-indexer-net
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_HOST: db
 
   elasticsearch:
     container_name: es-container

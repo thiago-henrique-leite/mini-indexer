@@ -1,10 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV["POSTGRES_HOST"] %>
-  user: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+  host: <%= ENV.fetch('DB_HOST', 'mini_indexer_postgres') %>
+  port: 5432
+  username: postgres
+  password: postgres
 
 development:
   <<: *default
@@ -13,7 +14,3 @@ development:
 test:
   <<: *default
   database: mini_indexer_test
-
-production:
-  <<: *default
-  database: mini_indexer_production
