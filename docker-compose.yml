@@ -1,6 +1,6 @@
 services:
-  mini_indexer_postgres:
-    container_name: mini_indexer_postgres
+  mini-indexer-postgres:
+    container_name: mini-indexer-postgres
     image: 'postgres:13.6-alpine'
     environment:
       - POSTGRES_DB=mini_indexer
@@ -22,7 +22,7 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mini_indexer_postgres
+      - mini-indexer-postgres
     networks:
       - mini-indexer-net
 
