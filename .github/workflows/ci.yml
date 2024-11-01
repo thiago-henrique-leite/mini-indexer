@@ -24,7 +24,7 @@ jobs:
     services:
       postgres:
         env:
-          POSTGRES_DB: park_test
+          POSTGRES_DB: mini_indexer_test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         image: postgres:13-alpine
