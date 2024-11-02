@@ -12,7 +12,7 @@ module ElasticSearch
             {
               index: {
                 _index: index,
-                _id: document[:offer_id]
+                _id: document[:object_id]
               }
             }
           ].append(document)

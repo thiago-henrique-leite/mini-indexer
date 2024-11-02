@@ -7,10 +7,10 @@ PUT /course_offers
 {
   "mappings": {
     "properties": {
-      "offer_id": {
+      "object_id": {
         "type": "integer"
       },
-      "name": {
+      "course_name": {
         "type": "text",
         "fields": {
           "brazilian": {
