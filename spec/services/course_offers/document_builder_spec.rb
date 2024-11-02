@@ -9,7 +9,7 @@ RSpec.describe CourseOffers::DocumentBuilder do
     it 'builds the document' do
       expect(subject).to eq(
         object_id: offer.id,
-        name: course.name,
+        course_name: course.name,
         level: course.level,
         kind: course.kind,
         shift: course.shift,

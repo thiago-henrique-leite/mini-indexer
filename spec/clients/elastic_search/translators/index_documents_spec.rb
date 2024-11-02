@@ -5,7 +5,7 @@ RSpec.describe ElasticSearch::Translators::IndexDocuments do
       [
         {
           object_id: 1,
-          name: 'Engenharia de Software',
+          course_name: 'Engenharia de Software',
           level: 'Ensino Infantil',
           kind: 'Semi EaD',
           shift: 'Virtual',
@@ -29,7 +29,7 @@ RSpec.describe ElasticSearch::Translators::IndexDocuments do
         },
         {
           object_id: 1,
-          name: 'Engenharia de Software',
+          course_name: 'Engenharia de Software',
           level: 'Ensino Infantil',
           kind: 'Semi EaD',
           shift: 'Virtual',
