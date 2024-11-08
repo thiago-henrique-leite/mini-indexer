@@ -9,6 +9,7 @@ module CourseOffers
     def perform
       build_documents
       index_documents
+      delete_documents
     end
 
     private

@@ -6,4 +6,5 @@ class Offer < ApplicationRecord
   validates :discount_percentage, numericality: { greater_than: 0, less_than_or_equal_to: 100 }
 
   scope :enabled, -> { where(enabled: true) }
+  scope :disabled, -> { where(enabled: false) }
 end
