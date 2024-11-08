@@ -2,25 +2,28 @@ module CourseOffers
   class Indexer
     INDEX_NAME = 'course_offers'.freeze
 
-    def initialize(client)
+    def initialize(client, course_id)
       @client = client
+      @course_id = course_id  
     end
 
     def perform
-      build_documents
+      build_documents_disabled
+      build_documents_enabled
       index_documents
+      delete_offers_disabled
     end
 
     private
 
-    attr_reader :client, :documents
+    attr_reader :client, :documents, :course_id, :documents_offers_enabled, :documents_offers_disabled
 
     def offers
-      Offer.enabled.includes(:university_offer, :course)
+      Offer.enabled.includes(:university_offer, :course).joins(:university_offer).where(university_offers: { course_id: course_id })
     end
 
     def offers_disabled
-      Offer.where(enabled: false).includes(:university_offer, :course)
+      Offer.where(enabled: false).includes(:university_offer, :course).joins(:university_offer).where(university_offers: { course_id: course_id })
     end
 
     def build_documents_enabled
@@ -39,7 +42,7 @@ module CourseOffers
       client.instance.index_documents(INDEX_NAME, documents_offers_enabled)
     end
 
-    def delete_index
+    def delete_offers_disabled
       client.instance.delete_index(INDEX_NAME, documents_offers_disabled)
     end
   end
