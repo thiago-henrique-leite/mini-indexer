@@ -7,19 +7,24 @@ module CourseOffers
     end
 
     def perform
-      build_documents
+      offers = Offer.enabled.includes(:university_offer, :course)
+      build_documents(offers)
       index_documents
+    end
+
+    def index_course
+      #buscar ofertas no bancdo
+      #buscar ofertas no indice
+      #comparar ofertas
+      #remover as ofertas desabilitadas
+      #indexar as ofertas novas
     end
 
     private
 
     attr_reader :client, :documents
 
-    def offers
-      Offer.enabled.includes(:university_offer, :course)
-    end
-
-    def build_documents
+    def build_documents(offers)
       @documents = offers.map do |offer|
         CourseOffers::DocumentBuilder.new(offer).build
       end
