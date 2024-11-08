@@ -19,14 +19,28 @@ module CourseOffers
       Offer.enabled.includes(:university_offer, :course)
     end
 
-    def build_documents
-      @documents = offers.map do |offer|
+    def offers_disabled
+      Offer.where(enabled: false).includes(:university_offer, :course)
+    end
+
+    def build_documents_enabled
+      @documents_offers_enabled = offers.map do |offer|
+        CourseOffers::DocumentBuilder.new(offer).build
+      end
+    end
+
+    def build_documents_disabled
+      @documents_offers_disabled = offers_disabled.map do |offer|
         CourseOffers::DocumentBuilder.new(offer).build
       end
     end
 
     def index_documents
-      client.instance.index_documents(INDEX_NAME, documents)
+      client.instance.index_documents(INDEX_NAME, documents_offers_enabled)
+    end
+
+    def delete_index
+      client.instance.delete_index(INDEX_NAME, documents_offers_disabled)
     end
   end
 end
