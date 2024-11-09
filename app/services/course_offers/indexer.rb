@@ -11,6 +11,10 @@ module CourseOffers
       index_documents
     end
 
+    def update_by_course_id(course_id)
+      "Updating course offers for course_id: #{course_id}"
+    end
+
     private
 
     attr_reader :client, :documents
