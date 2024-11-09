@@ -7,7 +7,8 @@ module CourseOffers
     end
 
     def perform
-      build_documents
+      offers = offers
+      build_documents(offers)
       index_documents
     end
 
@@ -23,7 +24,7 @@ module CourseOffers
       Offer.enabled.includes(:university_offer, :course)
     end
 
-    def build_documents
+    def build_documents(offers)
       @documents = offers.map do |offer|
         CourseOffers::DocumentBuilder.new(offer).build
       end
