@@ -7,6 +7,7 @@ module CourseOffers
     def build
       {
         object_id: offer.id,
+        course_id: course.id,
         course_name: course.name,
         level: course.level,
         kind: course.kind,

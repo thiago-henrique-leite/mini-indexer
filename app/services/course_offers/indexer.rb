@@ -7,20 +7,38 @@ module CourseOffers
     end
 
     def perform
-      offers = offers
+      offers = offers_enabled
       build_documents(offers)
       index_documents
     end
 
     def update_by_course_id(course_id)
-      "Updating course offers for course_id: #{course_id}"
-    end
+      offers = offers_enabled.by_course_id(course_id)
+      list_offer_ids = offers.map(&:id)
+      course_name = Course.where(id: course_id).pluck(:name).first
+      body = ElasticSearch::Translators::SearchDocuments.new('course_name', course_name).translate
+      list_indexed_offer_ids = client.search_documents(INDEX_NAME, body)
+      result = "
+      Ofertas no banco: #{list_offer_ids}
+      Body: #{body}
+      Ofertas no índice: #{extract_ids(list_indexed_offer_ids)}
+      "
 
+      
+      # Buscar as ofertas por course 
+      # Pegar os offer_ids
+      # Ver os que não estão no índice, mas não estão no banco e desabilitar
+      # Buildas os documentos e indexar
+    end
+    
+    def extract_ids(response)
+      response.dig('hits', 'hits').map { |hit| hit['_id'].to_i }
+    end
     private
 
     attr_reader :client, :documents
 
-    def offers
+    def offers_enabled
       Offer.enabled.includes(:university_offer, :course)
     end
 
@@ -31,7 +49,8 @@ module CourseOffers
     end
 
     def index_documents
-      client.instance.index_documents(INDEX_NAME, documents)
+      # Indexando documentos diretamente no Elasticsearch
+      client.index_documents(INDEX_NAME, documents)
     end
   end
 end
