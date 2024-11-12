@@ -17,7 +17,11 @@ module CourseOffers
       list_offer_ids = offers.map(&:id)
       course_name = Course.where(id: course_id).pluck(:name).first
       body = ElasticSearch::Translators::SearchDocuments.new('course_name', course_name).translate
-      list_indexed_offer_ids = client.search_documents(INDEX_NAME, body)
+      list_index = client.search_documents(INDEX_NAME, body)
+      p   '@@@@@@@@@@@@@@@@@@@'
+      p list_index
+      list_indexed_offer_ids = extract_ids(list_index)
+      index_to_remove = list_indexed_offer_ids.difference(list_indexed_offer_ids)
       result = "
       Ofertas no banco: #{list_offer_ids}
       Body: #{body}
@@ -32,7 +36,10 @@ module CourseOffers
     end
     
     def extract_ids(response)
-      response.dig('hits', 'hits').map { |hit| hit['_id'].to_i }
+      # response.dig('hits', 'hits').map { |hit| hit['_id'].to_i 
+      ids = response.map { |item| puts item }
+      p '7777777777777777777777'
+      response
     end
     private
 
