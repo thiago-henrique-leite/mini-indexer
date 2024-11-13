@@ -16,15 +16,21 @@ module CourseOffers
 
     def update_index
       offers = Offer.enabled.where(course_id: course_id).includes(:university_offer, :course)
-      build_documents(offers)
-
       offer_ids = offer.pluck(:id)
-      indexed_offers_ids = client.instance.search_documents(INDEX_NAME, { query: { terms: { offer_id: offer_ids } } })
+      
+      indexed_offers_ids = client.instance.search_documents(INDEX_NAME, { query: { terms: { offer_id: offer_ids } } })# Retorna o documeto total, não só o offer id
+      ## criar um metodo que pegue o offer_id do documento apenas
 
-      offers_to_index = offers.diference(indexed_offers_ids)
-      client.instance.delete_documents(INDEX_NAME, offer_ids)
+      offers_to_index = offers.diference(indexed_offers_ids) ##Conferir se esta usando as listas corretas
 
+      client.instance.delete_documents(INDEX_NAME, offer_ids) ## criar metodo que delete os documentos pelo offer_id na classe correta
+
+    # parte 2, buildar e reindexar
+      build_documents(offers)
       index_documents
+
+    # retorno
+    # count de removidas e criadas
     end
 
     private
