@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
   resources :course_offers, only: [] do
     put :index_courses, to: "course_offers#index_courses"
+    put :update_index_courses, to: "course_offers#update_index_courses"
   end
+
+
   # Defines the root path route ("/")
   # root "posts#index"
 end
