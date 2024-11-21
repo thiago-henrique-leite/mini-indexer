@@ -1,12 +1,10 @@
 module CourseOffers
   class IndexUpdate
-
-
     INDEX_NAME = 'course_offers'.freeze
 
     def initialize(client, course_id)
       @client = client
-      @course_id = course_id  
+      @course_id = course_id
     end
 
     def perform
@@ -19,13 +17,15 @@ module CourseOffers
     private
 
     attr_reader :client, :course_id, :documents_offers_enabled, :documents_offers_disabled
-    
+
     def offers_enabled
-      Offer.enabled.includes(:university_offer, :course).joins(:university_offer).where(university_offers: { course_id: course_id })
+      Offer.enabled.includes(:university_offer,
+        :course).joins(:university_offer).where(university_offers: { course_id: course_id })
     end
 
     def offers_disabled
-      Offer.where(enabled: false).includes(:university_offer, :course).joins(:university_offer).where(university_offers: { course_id: course_id })
+      Offer.where(enabled: false).includes(:university_offer,
+        :course).joins(:university_offer).where(university_offers: { course_id: course_id })
     end
 
     def build_documents_enabled
@@ -40,7 +40,7 @@ module CourseOffers
       end
     end
 
-    #def index_documents
+    # def index_documents
     def add_offers_enabled
       client.instance.index_documents(INDEX_NAME, documents_offers_enabled)
     end
