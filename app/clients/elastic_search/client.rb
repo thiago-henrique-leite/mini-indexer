@@ -12,6 +12,10 @@ module ElasticSearch
       connection.search(index: index, body: body)
     end
 
+    def delete_documents(index, documents)
+      body = ElasticSearch::Translators::DeleteDocuments.new(index, documents).translate
+
+      connection.bulk(body: body)
     private
 
     def connection
