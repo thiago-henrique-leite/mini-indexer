@@ -8,6 +8,6 @@ class CourseController < ApplicationController
 private
 
   def indexer_entity
-    CourseOffers::UpdateIndexer.new(ElasticSearch::Client.instance)
+    CourseOffers::UpdateIndexer.new(ElasticSearch::Client)
   end
 end

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::API
 		#para verificar se a query esta certa, eu sei que ta tudo errado fiz feio pq vou apagar
 		course_name = params[:course_name]
 
-		client = ElasticSearch::Client.instance
+		client = ElasticSearch::Client
 
 		body = ElasticSearch::Translators::SearchDocuments.new('course_name', course_name ).translate
 
@@ -22,6 +22,6 @@ class ApplicationController < ActionController::API
 	private
 
 	def indexer_entity
-		CourseOffers::Indexer.new(ElasticSearch::Client.instance)
+		CourseOffers::Indexer.new(ElasticSearch::Client)
 	end
 end

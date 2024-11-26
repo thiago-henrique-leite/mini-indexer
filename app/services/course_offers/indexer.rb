@@ -19,12 +19,12 @@ module CourseOffers
       Offer.enabled.includes(:university_offer, :course)
     end
     def build_documents(offers)
-      documents = offers.map do |offer|
+      @documents = offers.map do |offer|
         CourseOffers::DocumentBuilder.new(offer).build
       end
     end
     def index_documents
-      client.instance.index_documents(INDEX_NAME, documents)
+      client.instance.index_documents(INDEX_NAME, @documents)
     end
   end
 end
